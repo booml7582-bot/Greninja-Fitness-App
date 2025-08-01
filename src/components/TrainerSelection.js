@@ -60,6 +60,72 @@ const TrainerSelection = ({ onTrainerSelect }) => {
         speed: 33,
         hp: 100
       }
+    },
+    { 
+      id: 'gerimagne', 
+      name: 'Trainer Gerimagne', 
+      avatar: '👨‍💼',
+      stats: {
+        attack: 27,
+        defense: 23,
+        speed: 29,
+        hp: 100
+      }
+    },
+    { 
+      id: 'gelo', 
+      name: 'Trainer Gelo', 
+      avatar: '👨‍🎓',
+      stats: {
+        attack: 26,
+        defense: 21,
+        speed: 31,
+        hp: 100
+      }
+    },
+    { 
+      id: 'raszoul', 
+      name: 'Trainer Raszoul', 
+      avatar: '👨‍🔬',
+      stats: {
+        attack: 29,
+        defense: 26,
+        speed: 27,
+        hp: 100
+      }
+    },
+    { 
+      id: 'ben', 
+      name: 'Trainer Ben', 
+      avatar: '👨‍🚀',
+      stats: {
+        attack: 31,
+        defense: 19,
+        speed: 34,
+        hp: 100
+      }
+    },
+    { 
+      id: 'wacky', 
+      name: 'Trainer Wacky', 
+      avatar: '🤡',
+      stats: {
+        attack: 24,
+        defense: 27,
+        speed: 26,
+        hp: 100
+      }
+    },
+    { 
+      id: 'ecat', 
+      name: 'Trainer Ecat', 
+      avatar: '🐱',
+      stats: {
+        attack: 33,
+        defense: 17,
+        speed: 36,
+        hp: 100
+      }
     }
   ];
 
@@ -389,4 +455,4 @@ const TrainerSelection = ({ onTrainerSelect }) => {
   );
 };
 
-export default TrainerSelection; 
+export default TrainerSelection;

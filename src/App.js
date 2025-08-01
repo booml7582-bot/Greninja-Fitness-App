@@ -54,11 +54,11 @@ function App() {
       agility: 25
     },
     maxStats: {
-      attack: 25,
-      defense: 20,
-      speed: 30,
+      attack: 75, // Base cap of 75
+      defense: 75, // Base cap of 75
+      speed: 75, // Base cap of 75
       hp: 100,
-      agility: 25
+      agility: 75 // Base cap of 75
     },
     moves: [
       {
@@ -452,15 +452,24 @@ function App() {
         newLevel += 1;
         newExperienceToNext = prev.experienceToNext * 1.5;
         
-        // Increase HP and max stats on level up
-        const hpIncrease = 3; // +3 HP every level
-        const statIncrease = newLevel % 5 === 0 ? 2 : 1; // +2 every 5 levels, +1 otherwise
-        
+        // Increase HP by 2 every level
+        const hpIncrease = 2;
         newMaxStats.hp += hpIncrease;
-        newMaxStats.attack += statIncrease;
-        newMaxStats.defense += statIncrease;
-        newMaxStats.speed += statIncrease;
-        newMaxStats.agility += statIncrease;
+        
+        // Calculate stat cap increases per level
+        // Base increase: +1 per level
+        // Bonus increase: +1 additional every 5 levels
+        const baseStatCapIncrease = 1;
+        const bonusStatCapIncrease = newLevel % 5 === 0 ? 1 : 0;
+        const totalStatCapIncrease = baseStatCapIncrease + bonusStatCapIncrease;
+        
+        // Increase stat caps (max level 100)
+        if (newLevel <= 100) {
+          newMaxStats.attack += totalStatCapIncrease;
+          newMaxStats.defense += totalStatCapIncrease;
+          newMaxStats.speed += totalStatCapIncrease;
+          newMaxStats.agility += totalStatCapIncrease;
+        }
         
         // Also increase current HP to match new max if it was at max
         if (newStats.hp >= prev.maxStats.hp) newStats.hp = newMaxStats.hp;
@@ -733,4 +742,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

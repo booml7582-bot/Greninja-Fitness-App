@@ -20,7 +20,13 @@ const LeaderboardTab = ({ currentTrainer, character, onCombatStart, onCombatEnd,
         { id: 'naz', name: 'Trainer Naz', avatar: '👩‍🦱' },
         { id: 'theo', name: 'Trainer Theo', avatar: '👨‍🦳' },
         { id: 'krys', name: 'Trainer Krys', avatar: '👩‍🦲' },
-        { id: 'jesmer', name: 'Trainer Jesmer', avatar: '👨‍🦱' }
+        { id: 'jesmer', name: 'Trainer Jesmer', avatar: '👨‍🦱' },
+        { id: 'gerimagne', name: 'Trainer Gerimagne', avatar: '👨‍💼' },
+        { id: 'gelo', name: 'Trainer Gelo', avatar: '👨‍🎓' },
+        { id: 'raszoul', name: 'Trainer Raszoul', avatar: '👨‍🔬' },
+        { id: 'ben', name: 'Trainer Ben', avatar: '👨‍🚀' },
+        { id: 'wacky', name: 'Trainer Wacky', avatar: '🤡' },
+        { id: 'ecat', name: 'Trainer Ecat', avatar: '🐱' }
       ];
 
       const leaderboardEntries = [];
@@ -284,4 +290,4 @@ const LeaderboardTab = ({ currentTrainer, character, onCombatStart, onCombatEnd,
   );
 };
 
-export default LeaderboardTab; 
+export default LeaderboardTab;

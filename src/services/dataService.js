@@ -96,7 +96,7 @@ export const loadAllTrainersData = async () => {
   }
   
   // Fallback to local storage
-  const trainerIds = ['ced', 'naz', 'theo', 'krys', 'jesmer'];
+  const trainerIds = ['ced', 'naz', 'theo', 'krys', 'jesmer', 'gerimagne', 'gelo', 'raszoul', 'ben', 'wacky', 'ecat'];
   trainerIds.forEach(id => {
     const localData = localStorage.getItem(`trainer_${id}`);
     if (localData) {
@@ -142,4 +142,4 @@ export const loadAppSettings = async () => {
   
   const localSettings = localStorage.getItem('appSettings');
   return localSettings ? JSON.parse(localSettings) : null;
-}; 
+};

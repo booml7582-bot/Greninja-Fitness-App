@@ -23,25 +23,15 @@ const CharacterTab = ({ character, onUpdateName, onUpdatePassword, darkMode }) =
     }
   };
 
-  const calculateLevel = (experience) => {
-    return Math.floor(experience / 100) + 1;
+  const calculateExperienceProgress = (experience, experienceToNext) => {
+    if (experienceToNext <= experience) return 0;
+    const experienceInCurrentLevel = experience % experienceToNext;
+    return (experienceInCurrentLevel / experienceToNext) * 100;
   };
 
-  const calculateExperienceToNext = (experience) => {
-    const currentLevel = calculateLevel(experience);
-    return currentLevel * 100;
-  };
-
-  const calculateExperienceProgress = (experience) => {
-    const currentLevel = calculateLevel(experience);
-    const experienceInCurrentLevel = experience - ((currentLevel - 1) * 100);
-    const experienceNeededForLevel = currentLevel * 100;
-    return (experienceInCurrentLevel / experienceNeededForLevel) * 100;
-  };
-
-  const level = calculateLevel(character.experience);
-  const experienceToNext = calculateExperienceToNext(character.experience);
-  const experienceProgress = calculateExperienceProgress(character.experience);
+  const level = character.level || 1;
+  const experienceToNext = character.experienceToNext || 100;
+  const experienceProgress = calculateExperienceProgress(character.experience, experienceToNext);
 
   const calculateStatPercentage = (current, max) => {
     return Math.min((current / max) * 100, 100);
@@ -177,4 +167,4 @@ const CharacterTab = ({ character, onUpdateName, onUpdatePassword, darkMode }) =
   );
 };
 
-export default CharacterTab; 
+export default CharacterTab;
