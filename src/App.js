@@ -20,6 +20,7 @@ function App() {
   const [activeTab, setActiveTab] = useState('character');
   const [darkMode, setDarkMode] = useState(false);
   const [isInCombat, setIsInCombat] = useState(false);
+  const [selectedTrainerNpc, setSelectedTrainerNpc] = useState(null);
   
   // Audio refs
   const menuMusicRef = useRef(null);
@@ -37,23 +38,27 @@ function App() {
   // Default character data
   const defaultCharacter = {
     name: 'Ash-Greninja',
+    type: 'Water',
     level: 1,
     experience: 0,
     experienceToNext: 100,
     currentHp: 100,
+    currency: 100, // Starting currency
+    workoutStreak: 0, // Current workout streak
+    lastWorkoutDate: null, // Track last workout date
     stats: {
-      attack: 10,
-      defense: 8,
-      speed: 12,
+      attack: 25,
+      defense: 20,
+      speed: 30,
       hp: 100,
-      agility: 15
+      agility: 25
     },
     maxStats: {
-      attack: 100,
-      defense: 100,
-      speed: 100,
-      hp: 200,
-      agility: 100
+      attack: 25,
+      defense: 20,
+      speed: 30,
+      hp: 100,
+      agility: 25
     },
     moves: [
       {
@@ -133,12 +138,13 @@ function App() {
     {
       id: 4,
       name: 'Plank',
-      description: 'Hold plank for 30 seconds to increase HP',
+      description: 'Hold plank for 30 seconds for bonus XP and coins',
       targetStat: 'hp',
-      statIncrease: 5,
+      statIncrease: 0,
       difficulty: 'Medium',
       icon: '🧘',
-      completed: false
+      completed: false,
+      isBonusTask: true
     },
     {
       id: 5,
@@ -198,8 +204,9 @@ function App() {
     {
       id: 1,
       name: 'Pikachu',
+      type: 'Electric',
       level: 1,
-      stats: { attack: 5, defense: 3, speed: 8, hp: 50, agility: 6 },
+      stats: { attack: 20, defense: 15, speed: 35, hp: 80, agility: 30 },
       avatar: '⚡',
       difficulty: 'Easy',
       reward: { experience: 20, gold: 10 },
@@ -213,8 +220,9 @@ function App() {
     {
       id: 2,
       name: 'Charizard',
+      type: 'Fire',
       level: 2,
-      stats: { attack: 8, defense: 6, speed: 5, hp: 80, agility: 4 },
+      stats: { attack: 30, defense: 25, speed: 25, hp: 100, agility: 20 },
       avatar: '🔥',
       difficulty: 'Easy',
       reward: { experience: 30, gold: 15 },
@@ -228,8 +236,9 @@ function App() {
     {
       id: 3,
       name: 'Blastoise',
+      type: 'Water',
       level: 3,
-      stats: { attack: 15, defense: 12, speed: 10, hp: 120, agility: 8 },
+      stats: { attack: 35, defense: 40, speed: 20, hp: 140, agility: 15 },
       avatar: '🌊',
       difficulty: 'Medium',
       reward: { experience: 50, gold: 25 },
@@ -243,8 +252,9 @@ function App() {
     {
       id: 4,
       name: 'Mewtwo',
+      type: 'Psychic',
       level: 5,
-      stats: { attack: 25, defense: 20, speed: 18, hp: 200, agility: 15 },
+      stats: { attack: 50, defense: 45, speed: 40, hp: 200, agility: 35 },
       avatar: '🧬',
       difficulty: 'Hard',
       reward: { experience: 100, gold: 50 },
@@ -352,6 +362,7 @@ function App() {
       setCharacter(trainerData.character);
       if (trainerData.character.password) {
         setShowPasswordModal(true);
+        setShowTrainerSelection(false);
         return;
       }
     } else {
@@ -366,6 +377,7 @@ function App() {
     if (passwordInput === character.password) {
       setShowPasswordModal(false);
       setPasswordInput('');
+      setShowTrainerSelection(false);
     } else {
       alert('Incorrect password!');
       setPasswordInput('');
@@ -387,27 +399,74 @@ function App() {
       let newStats = { ...prev.stats };
       let newCurrentHp = prev.currentHp;
       let newMoves = [...prev.moves];
+      let newCurrency = prev.currency;
+      let newWorkoutStreak = prev.workoutStreak;
+      let newLastWorkoutDate = prev.lastWorkoutDate;
+
+      // Add currency reward for completing task
+      newCurrency += 15; // Base currency reward
+
+      // Handle workout streak
+      const today = new Date().toDateString();
+      if (newLastWorkoutDate !== today) {
+        if (newLastWorkoutDate === new Date(Date.now() - 24 * 60 * 60 * 1000).toDateString()) {
+          // Consecutive day
+          newWorkoutStreak += 1;
+        } else {
+          // Break in streak
+          newWorkoutStreak = 1;
+        }
+        newLastWorkoutDate = today;
+      }
+
+      // Bonus currency for maintaining streak
+      if (newWorkoutStreak >= 3) {
+        newCurrency += Math.floor(newWorkoutStreak / 3) * 10; // Bonus currency every 3 days
+      }
 
       if (task.isHealing) {
-        newCurrentHp = prev.stats.hp;
+        newCurrentHp = prev.maxStats.hp; // Use maxStats.hp instead of stats.hp
         newMoves = prev.moves.map(move => ({
           ...move,
           pp: move.maxPp
         }));
+      } else if (task.isBonusTask) {
+        // For bonus tasks, give bonus XP and coins instead of stat increase
+        newCurrency += 10; // 10 coins for bonus tasks (Plank)
+        // No stat increase for bonus tasks
       } else {
+        // Increase only the current stat by the task's stat increase (max stats increase through leveling)
         newStats[task.targetStat] = Math.min(
           newStats[task.targetStat] + task.statIncrease,
           prev.maxStats[task.targetStat]
         );
       }
 
-      const newExperience = prev.experience + 10;
+      const newExperience = prev.experience + (task.isBonusTask ? 50 : 10); // 50 XP for bonus tasks (Plank), 10 for regular tasks
       let newLevel = prev.level;
       let newExperienceToNext = prev.experienceToNext;
 
+      let newMaxStats = { ...prev.maxStats };
+      
       if (newExperience >= prev.experienceToNext) {
         newLevel += 1;
         newExperienceToNext = prev.experienceToNext * 1.5;
+        
+        // Increase HP and max stats on level up
+        const hpIncrease = 3; // +3 HP every level
+        const statIncrease = newLevel % 5 === 0 ? 2 : 1; // +2 every 5 levels, +1 otherwise
+        
+        newMaxStats.hp += hpIncrease;
+        newMaxStats.attack += statIncrease;
+        newMaxStats.defense += statIncrease;
+        newMaxStats.speed += statIncrease;
+        newMaxStats.agility += statIncrease;
+        
+        // Also increase current HP to match new max if it was at max
+        if (newStats.hp >= prev.maxStats.hp) newStats.hp = newMaxStats.hp;
+        
+        // Restore HP on level up
+        newCurrentHp = newMaxStats.hp;
       }
 
       const newCharacter = {
@@ -415,9 +474,13 @@ function App() {
         stats: newStats,
         currentHp: newCurrentHp,
         moves: newMoves,
+        currency: newCurrency,
+        workoutStreak: newWorkoutStreak,
+        lastWorkoutDate: newLastWorkoutDate,
         experience: newExperience,
         level: newLevel,
-        experienceToNext: newExperienceToNext
+        experienceToNext: newExperienceToNext,
+        maxStats: newMaxStats
       };
 
       // Save updated character data
@@ -502,8 +565,13 @@ function App() {
     setActiveTab(tabId);
   };
 
-  const handleCombatStart = () => {
+  const handleCombatStart = (trainerNpc = null) => {
     setIsInCombat(true);
+    // If a trainer NPC is provided, we'll need to pass it to the combat system
+    if (trainerNpc) {
+      // We'll handle this in the CombatTab component
+      setSelectedTrainerNpc(trainerNpc);
+    }
   };
 
   const handleCombatEnd = () => {
@@ -551,93 +619,116 @@ function App() {
   }
 
   return (
-    <div className={`App ${darkMode ? 'dark-mode' : ''}`}>
+    <div className="App">
       {/* Audio Elements */}
       <audio ref={menuMusicRef} src={MenuMusic} loop />
       <audio ref={battleMusicRef} src={BattleMusic} loop />
       <audio ref={buttonSoundRef} src={ButtonA} />
       
-      <div className="container">
-        <header className="app-header">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-            <div>
-              <h1>🏋️ Fitness Warrior</h1>
-              <p>Trainer: {currentTrainer?.name} | Level up your character through exercise!</p>
+      <div className="mobile-container">
+        {/* Header */}
+        <header className="mobile-header">
+          <div className="header-content">
+            <div className="header-left">
+              <img 
+                src={require('./media/logo.png')} 
+                alt="Logo" 
+                style={{ 
+                  width: '128px', 
+                  height: '48px', 
+                  objectFit: 'contain'
+                }} 
+              />
             </div>
-            <button 
-              onClick={toggleDarkMode}
-              className="dark-mode-toggle"
-              title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            >
-              {darkMode ? <Sun size={24} /> : <Moon size={24} />}
-            </button>
+            <div className="header-right">
+              <div className="xp-display">
+                <span className="xp-icon">⭐</span>
+                <span>{character.experience} XP</span>
+              </div>
+              <div className="currency-display">
+                <span className="currency-icon">💰</span>
+                <span>{character.currency}</span>
+              </div>
+            </div>
           </div>
         </header>
 
-        <div className="tab-container">
+        {/* Main Content Area */}
+        <main className="main-content">
+          {activeTab === 'character' && (
+            <CharacterTab
+              character={character}
+              onUpdateName={updateCharacterName}
+              onUpdatePassword={updateCharacterPassword}
+              darkMode={darkMode}
+            />
+          )}
+
+          {activeTab === 'tasks' && (
+            <TasksTab
+              tasks={tasks}
+              character={character}
+              onCompleteTask={completeTask}
+              darkMode={darkMode}
+            />
+          )}
+
+          {activeTab === 'combat' && (
+            <CombatTab
+              character={character}
+              npcs={npcs}
+              setCharacter={setCharacter}
+              onUpdateHp={updateCharacterHp}
+              onUpdateMoves={updateCharacterMoves}
+              darkMode={darkMode}
+              onCombatStart={handleCombatStart}
+              onCombatEnd={handleCombatEnd}
+              currentTrainer={currentTrainer}
+              selectedTrainerNpc={selectedTrainerNpc}
+              setSelectedTrainerNpc={setSelectedTrainerNpc}
+            />
+          )}
+
+          {activeTab === 'leaderboard' && (
+            <LeaderboardTab
+              currentTrainer={currentTrainer}
+              character={character}
+              onCombatStart={handleCombatStart}
+              onCombatEnd={handleCombatEnd}
+              onTabChange={handleTabChange}
+              darkMode={darkMode}
+            />
+          )}
+
+          {activeTab === 'options' && (
+            <OptionsTab
+              character={character}
+              audioSettings={audioSettings}
+              onUpdateAudioSettings={updateAudioSettings}
+              onResetCharacter={resetCharacter}
+              onUpdateName={updateCharacterName}
+              onUpdatePassword={updateCharacterPassword}
+              darkMode={darkMode}
+            />
+          )}
+        </main>
+      </div>
+
+      {/* Bottom Navigation Tabs - Fixed Position */}
+      <nav className="bottom-nav">
+        <div className="nav-tabs">
           {tabs.map(tab => (
-            <div
+            <button
               key={tab.id}
-              className={`tab ${activeTab === tab.id ? 'active' : ''}`}
+              className={`nav-tab ${activeTab === tab.id ? 'active' : ''}`}
               onClick={() => handleTabChange(tab.id)}
             >
-              <span style={{ marginRight: '8px' }}>{tab.icon}</span>
-              {tab.label}
-            </div>
+              <span className="nav-icon">{tab.icon}</span>
+              <span className="nav-label">{tab.label}</span>
+            </button>
           ))}
         </div>
-
-        {activeTab === 'character' && (
-          <CharacterTab 
-            character={character} 
-            onUpdateName={updateCharacterName}
-            onUpdatePassword={updateCharacterPassword}
-            darkMode={darkMode}
-          />
-        )}
-        
-        {activeTab === 'tasks' && (
-          <TasksTab 
-            tasks={tasks} 
-            character={character}
-            onCompleteTask={completeTask}
-            darkMode={darkMode}
-          />
-        )}
-        
-        {activeTab === 'combat' && (
-          <CombatTab 
-            character={character} 
-            npcs={npcs}
-            setCharacter={setCharacter}
-            onUpdateHp={updateCharacterHp}
-            onUpdateMoves={updateCharacterMoves}
-            darkMode={darkMode}
-            onCombatStart={handleCombatStart}
-            onCombatEnd={handleCombatEnd}
-            currentTrainer={currentTrainer}
-          />
-        )}
-
-        {activeTab === 'leaderboard' && (
-          <LeaderboardTab 
-            currentTrainer={currentTrainer}
-            character={character}
-            onCombatStart={handleCombatStart}
-            onCombatEnd={handleCombatEnd}
-            darkMode={darkMode}
-          />
-        )}
-
-        {activeTab === 'options' && (
-          <OptionsTab 
-            audioSettings={audioSettings}
-            onUpdateAudioSettings={updateAudioSettings}
-            onResetCharacter={resetCharacter}
-            darkMode={darkMode}
-          />
-        )}
-      </div>
+      </nav>
     </div>
   );
 }

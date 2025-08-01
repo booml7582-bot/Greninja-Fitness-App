@@ -1,5 +1,6 @@
 /* Import Pixel Font */
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* Global Styles */
 * {
@@ -9,10 +10,11 @@
 }
 
 body {
-  font-family: 'VT323', 'Courier New', monospace;
-  line-height: 1.4;
-  transition: all 0.3s ease;
-  font-size: 16px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: #1A202C;
+  color: #FFFFFF;
+  overflow: hidden; /* Prevent body scroll on mobile */
+  height: 100vh; /* Ensure full viewport height */
 }
 
 /* Light Mode (Default) */
@@ -28,9 +30,61 @@ body.dark-mode {
 }
 
 .App {
-  min-height: 100vh;
-  padding: 10px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0; /* Remove padding for mobile layout */
   transition: all 0.3s ease;
+  overflow: hidden; /* Prevent app scroll */
+}
+
+/* Hide scrollbars but keep functionality */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* Ensure smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles for accessibility */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #3182CE;
+  outline-offset: 2px;
+}
+
+/* Remove default button styles */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Remove default input styles */
+input {
+  border: none;
+  outline: none;
+  font-family: inherit;
+}
+
+/* Ensure proper text rendering */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
@@ -686,6 +740,14 @@ p {
 .trainer-selection {
   text-align: center;
   padding: 30px;
+  color: #FFFFFF;
+}
+
+.trainer-selection h1,
+.trainer-selection h2,
+.trainer-selection h3,
+.trainer-selection p {
+  color: #FFFFFF;
 }
 
 .trainer-grid {
@@ -703,6 +765,12 @@ p {
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
+  color: #FFFFFF;
+}
+
+.trainer-card h3,
+.trainer-card p {
+  color: #FFFFFF;
 }
 
 .trainer-card:hover {
@@ -741,6 +809,11 @@ p {
   backdrop-filter: blur(10px);
 }
 
+.dark-mode .leaderboard-item {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .leaderboard-rank {
   font-size: 1rem;
   font-weight: bold;
@@ -748,16 +821,38 @@ p {
   min-width: 35px;
 }
 
+.dark-mode .leaderboard-rank {
+  color: #fdcb6e;
+}
+
 .leaderboard-name {
   flex: 1;
   margin-left: 12px;
   font-weight: bold;
+  color: #333;
+}
+
+.dark-mode .leaderboard-name {
+  color: #ffffff;
 }
 
 .leaderboard-power {
   margin-right: 12px;
   color: #00b894;
   font-weight: bold;
+}
+
+.dark-mode .leaderboard-item {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .leaderboard-name {
+  color: #ffffff;
+}
+
+.dark-mode .leaderboard-power {
+  color: #00b894;
 }
 
 /* Options Styles */

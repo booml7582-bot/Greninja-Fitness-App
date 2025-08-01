@@ -1,1 +1,636 @@
-/* App-specific styles can be added here if needed */ 
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: #1A202C;
+  color: #FFFFFF;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobile Container */
+.mobile-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #1A202C;
+}
+
+/* Mobile Header */
+.mobile-header {
+  position: relative;
+  background: #2D3748;
+  padding: 16px 20px;
+  border-bottom: 1px solid #4A5568;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-left img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.header-left .app-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.xp-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #FFFFFF;
+}
+
+.xp-display .xp-icon {
+  color: #F6E05E;
+}
+
+.currency-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #F6E05E;
+  font-weight: 500;
+}
+
+.currency-display .currency-icon {
+  color: #F6E05E;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  padding-bottom: 140px; /* Increased padding to account for bottom nav */
+  overflow-y: auto;
+  background: #1A202C;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Ensure proper scrolling behavior */
+.main-content::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* Card Styles */
+.card {
+  background: #2D3748;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #4A5568;
+}
+
+/* Profile Card with Gradient */
+.profile-card {
+  background: linear-gradient(135deg, #2D3748 0%, #553C9A 100%);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border: 1px solid #553C9A;
+}
+
+.profile-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  background: #3182CE;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 12px;
+}
+
+.profile-badges {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.profile-badge {
+  background: #3182CE;
+  color: #FFFFFF;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.xp-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.xp-text {
+  font-size: 14px;
+  color: #E2E8F0;
+  font-weight: 500;
+}
+
+.xp-bar-container {
+  flex: 1;
+  height: 8px;
+  background: #4A5568;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: #3182CE;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.xp-target {
+  font-size: 12px;
+  color: #A0AEC0;
+  font-weight: 500;
+}
+
+/* Stats Card */
+.stats-card {
+  background: #2D3748;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #4A5568;
+}
+
+.stats-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.stat-row:last-child {
+  margin-bottom: 0;
+}
+
+.stat-label {
+  font-size: 16px;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 16px;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.stat-value.hp {
+  color: #48BB78;
+}
+
+.stat-bar-container {
+  flex: 1;
+  height: 8px;
+  background: #4A5568;
+  border-radius: 4px;
+  margin: 0 16px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  background: #3182CE;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Achievements Card */
+.achievements-card {
+  background: #2D3748;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #4A5568;
+}
+
+.achievements-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+}
+
+.achievements-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.achievement-item {
+  text-align: center;
+  flex: 1;
+}
+
+.achievement-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: #63B3ED;
+  margin-bottom: 8px;
+}
+
+.achievement-label {
+  font-size: 14px;
+  color: #A0AEC0;
+  font-weight: 500;
+}
+
+.achievement-divider {
+  width: 1px;
+  height: 60px;
+  background: #4A5568;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #2D3748;
+  border-top: 1px solid #4A5568;
+  padding: 8px 0;
+  z-index: 1001;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 16px 16px 0 0;
+}
+
+.nav-tabs {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: transparent;
+  border: none;
+  color: #A0AEC0;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 60px;
+}
+
+.nav-tab.active {
+  color: #63B3ED;
+  background: rgba(99, 179, 237, 0.1);
+}
+
+.nav-icon {
+  font-size: 20px;
+  margin-bottom: 2px;
+}
+
+.nav-label {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Button Styles */
+.btn {
+  background: #3182CE;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(49, 130, 206, 0.3);
+}
+
+.btn:hover {
+  background: #2C5AA0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(49, 130, 206, 0.4);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn.secondary {
+  background: #4A5568;
+  color: #FFFFFF;
+}
+
+.btn.secondary:hover {
+  background: #2D3748;
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #4A5568;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #3182CE;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Hide old tab styles */
+.tab-container {
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .mobile-header {
+    padding: 12px 16px;
+  }
+  
+  .header-left .app-title {
+    font-size: 16px;
+  }
+  
+  .main-content {
+    padding: 16px;
+    padding-bottom: 90px;
+  }
+  
+  .card {
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .profile-card {
+    padding: 20px;
+  }
+  
+  .profile-avatar {
+    width: 70px;
+    height: 70px;
+    font-size: 28px;
+  }
+  
+  .profile-name {
+    font-size: 24px;
+  }
+  
+  .stats-card,
+  .achievements-card {
+    padding: 20px;
+  }
+  
+  .achievement-number {
+    font-size: 28px;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+    padding: 14px 24px;
+  }
+  
+  .nav-tab {
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+}
+
+/* Combat Map Styles */
+.combat-map-container {
+  min-height: 200px;
+  overflow: hidden;
+  position: relative;
+  background: #2D3748;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.combat-map-scroll-indicator {
+  display: none;
+  text-align: center;
+  color: #A0AEC0;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.combat-nodes-container {
+  display: flex;
+  gap: 16px;
+  min-width: max-content;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 0;
+}
+
+.combat-node {
+  min-width: 120px;
+  background: #4A5568;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  touch-action: manipulation;
+  margin: 0 10px;
+}
+
+.combat-node:hover {
+  background: #3182CE;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+}
+
+.combat-node.defeated {
+  opacity: 0.5;
+  background: #2D3748;
+}
+
+.combat-node.defeated:hover {
+  background: #2D3748;
+  transform: none;
+}
+
+.combat-action-btn {
+  background: #3182CE;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.combat-action-btn:hover {
+  background: #2C5AA0;
+}
+
+@media (max-width: 768px) {
+  .combat-map-scroll-indicator {
+    display: block;
+  }
+  
+  .combat-node {
+    min-width: 120px;
+    margin: 0 10px;
+  }
+  
+  /* Improve mobile scrolling for combat map */
+  .combat-map-container {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  
+  .combat-map-container::-webkit-scrollbar {
+    display: none !important;
+  }
+  
+  .mobile-scroll-hint {
+    display: block !important;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .combat-action-btn {
+    min-height: 44px;
+    padding: 12px 16px;
+  }
+}
+
+/* Animations */
+@keyframes slideDown {
+  from {
+    transform: translateX(-50%) translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+} 
+
+/* Trainer Selection Styles */
+.trainer-selection {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.trainer-selection::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.trainer-selection::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.trainer-selection::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .trainer-selection {
+    height: 100vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+} 
