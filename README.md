@@ -1,4 +1,4 @@
-# 🏋️ Fitness Warrior - Gamified Fitness App
+# 🏋️ Battle Bond! - Gamified Ash-Greninja Fitness App
 
 A React-based gamified fitness application where users can train their character through exercise tasks and battle NPCs in a combat arena.
 
